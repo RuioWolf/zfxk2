@@ -22,13 +22,13 @@ namespace xsxk
         {
             if (args.Length < 3)
             {
-                //Console.WriteLine("命令行调用方法，参数依次为 学号 密码 课号列表（逗号隔开）");
-                //Console.WriteLine("例如: xsxk.exe 1401260241 123456 1,5,6,7");
-                Console.Write("请输入学号: ");
+                Console.WriteLine("命令行调用方法，参数依次为 学号 密码 课号列表（逗号隔开）");
+                Console.WriteLine("例如: xsxk.exe 1401260241 123456 1,5,6,7");
+                Console.WriteLine("请输入学号：");
                 _user = Console.ReadLine();
-                Console.Write("请输入教务管理系统密码: ");
+                Console.WriteLine("请输入教务管理系统密码：");
                 _pwd = Console.ReadLine();
-                Console.Write("请输入选课课程代码: ");
+                Console.WriteLine("请输入选课课号，多个选课请按顺序用逗号隔开，如：1,5,6,7");
                 _classes = Console.ReadLine().Split(',');
             }
             else
@@ -44,7 +44,7 @@ namespace xsxk
             {
                 Thread.Sleep(1000);
                 string _Post = "__VIEWSTATE=" + definition.LoginViewState + "&tbYHM=" + _user + "&tbPSW=" + _pwd + "&ddlSF=%D1%A7%C9%FA&imgDL.x=25&imgDL.y=12"; 
-                sLogin = GvCrawler.Post("http://jwnew.gdsdxy.cn/default2.aspx", _Post, _cookies);
+                sLogin = GvCrawler.Post("http://113.106.49.220/zfxk2/default3.aspx", _Post, _cookies);
                 if (sLogin.IndexOf("密码不正确") > 0)
                 {
                     Console.WriteLine("######## 学号或密码错误！########");
@@ -53,7 +53,7 @@ namespace xsxk
                 }
 
                 Console.WriteLine("尝试登录第" + (n++) + "次");
-                string stjkbcx = "http://jwnew.gdsdxy.cn/xs_main.aspx?xh=" + _user + "&lb=1";
+                string stjkbcx = "http://113.106.49.220/zfxk2/xsxk.aspx?xh=" + _user + "&lb=1";
                 if ((sLogin != "" && sLogin.IndexOf("系统繁忙") < 0))
                 {
                     Console.WriteLine("登录成功");
@@ -81,7 +81,7 @@ namespace xsxk
 
                             while (sLogin.IndexOf("window.parent.location='';") < 0)
                             {
-                                sLogin = GvCrawler.Post("http://jwnew.gdsdxy.cn/xs_main.aspx?xh=" + _user + "&lb=1", _Post, _cookies);
+                                sLogin = GvCrawler.Post("http://113.106.49.220/zfxk2/xsxk.aspx?xh=" + _user + "&lb=1", _Post, _cookies);
                                 if ((sLogin != "" && sLogin.IndexOf("系统繁忙") < 0))
                                 {
                                     Console.WriteLine("#####选课成功#####");
