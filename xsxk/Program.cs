@@ -7,6 +7,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Web;
 using System.IO;
+using System.Configuration;
 
 namespace xsxk
 {
@@ -17,26 +18,62 @@ namespace xsxk
         static string _user = "";
         static string _pwd = "";
         static string[] _classes ;
+        static string _login, _inedx;
 
         static void Main(string[] args)
         {
-            if (args.Length < 3)
-            {
+            //if (args.Length < 3)
+            //{
                 //Console.WriteLine("命令行调用方法，参数依次为 学号 密码 课号列表（逗号隔开）");
                 //Console.WriteLine("例如: xsxk.exe 1401260241 123456 1,5,6,7");
+                _login = ConfigurationManager.AppSettings.Get("login");
+                _inedx = ConfigurationManager.AppSettings.Get("index");
                 Console.Write("请输入学号: ");
                 _user = Console.ReadLine();
                 Console.Write("请输入教务管理系统密码: ");
-                _pwd = Console.ReadLine();
+                //_pwd = Console.ReadLine();
+                _pwd = EnterPasswd();
                 Console.Write("请输入选课课程代码: ");
                 _classes = Console.ReadLine().Split(',');
-            }
-            else
-            {
-                _user = args[0];
-                _pwd = args[1];
-                _classes = args[2].Split(',');
-            }
+                if (string.IsNullOrEmpty(_user) || string.IsNullOrEmpty(_pwd) || string.IsNullOrEmpty(_classes[0]))
+                {
+                    Console.WriteLine("有一个或多个以上参数为空！");
+                    Thread.Sleep(1000);
+                    System.Diagnostics.Process.Start(System.Reflection.Assembly.GetExecutingAssembly().Location);
+                    Environment.Exit(0);
+                }
+                if (string.IsNullOrEmpty(_login))
+                {
+#if (DEBUG)
+                    Console.WriteLine("_login is null");
+#endif
+                    _login = "http://jwnew.gdsdxy.cn/default2.aspx";
+                }
+                if (string.IsNullOrEmpty(_inedx))
+                {
+#if (DEBUG)
+                    Console.WriteLine("_index is null");
+#endif
+                    _inedx = "http://jwnew.gdsdxy.cn/xs_main.aspx?xh=";
+                }
+#if (DEBUG)
+                Console.WriteLine(_user);
+                Console.WriteLine(_pwd);
+                Console.WriteLine(_login);
+                Console.WriteLine(_inedx);
+                foreach (var item in _classes)
+                {
+                    Console.WriteLine(item);
+                }
+                Console.ReadLine();
+#endif
+            //}
+            //else
+            //{
+            //    _user = args[0];
+            //    _pwd = args[1];
+            //    _classes = args[2].Split(',');
+            //}
             Console.WriteLine("###### 抢课开始！######");
             string sLogin = "";
             int n = 1;
@@ -44,7 +81,7 @@ namespace xsxk
             {
                 Thread.Sleep(1000);
                 string _Post = "__VIEWSTATE=" + definition.LoginViewState + "&tbYHM=" + _user + "&tbPSW=" + _pwd + "&ddlSF=%D1%A7%C9%FA&imgDL.x=25&imgDL.y=12"; 
-                sLogin = GvCrawler.Post("http://jwnew.gdsdxy.cn/default2.aspx", _Post, _cookies);
+                sLogin = GvCrawler.Post(_login, _Post, _cookies);
                 if (sLogin.IndexOf("密码不正确") > 0)
                 {
                     Console.WriteLine("######## 学号或密码错误！########");
@@ -53,7 +90,7 @@ namespace xsxk
                 }
 
                 Console.WriteLine("尝试登录第" + (n++) + "次");
-                string stjkbcx = "http://jwnew.gdsdxy.cn/xs_main.aspx?xh=" + _user + "&lb=1";
+                string stjkbcx = _inedx + _user + "&lb=1";
                 if ((sLogin != "" && sLogin.IndexOf("系统繁忙") < 0))
                 {
                     Console.WriteLine("登录成功");
@@ -81,7 +118,7 @@ namespace xsxk
 
                             while (sLogin.IndexOf("window.parent.location='';") < 0)
                             {
-                                sLogin = GvCrawler.Post("http://jwnew.gdsdxy.cn/xs_main.aspx?xh=" + _user + "&lb=1", _Post, _cookies);
+                                sLogin = GvCrawler.Post(_inedx + _user + "&lb=1", _Post, _cookies);
                                 if ((sLogin != "" && sLogin.IndexOf("系统繁忙") < 0))
                                 {
                                     Console.WriteLine("#####选课成功#####");
@@ -106,6 +143,36 @@ namespace xsxk
                 }
             }
             Console.Read();
+        }
+
+        static string EnterPasswd() //源码来自四季天书 https://blog.skitisu.com/csharp-console-password-asterisk-backspace
+        {
+            while (true)
+            {
+                //Console.Write("请输入密码>");
+                string key = string.Empty;
+                while (true)
+                {
+                    ConsoleKeyInfo keyinfo = Console.ReadKey(true);
+                    if (keyinfo.Key == ConsoleKey.Enter) //按下回车，结束
+                    {
+                        Console.WriteLine();
+                        break;
+                    }
+                    else if (keyinfo.Key == ConsoleKey.Backspace && key.Length > 0) //如果是退格键并且字符没有删光
+                    {
+                        Console.Write("\b \b"); //输出一个退格（此时光标向左走了一位），然后输出一个空格取代最后一个星号，然后再往前走一位，也就是说其实后面有一个空格但是你看不见= =
+                        key = key.Substring(0, key.Length - 1);
+                    }
+
+                    else if (!char.IsControl(keyinfo.KeyChar)) //过滤掉功能按键等
+                    {
+                        key += keyinfo.KeyChar.ToString();
+                        Console.Write("*");
+                    }
+                }
+                return key;
+            }
         }
 
         /// <summary>
