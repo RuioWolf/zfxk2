@@ -15,6 +15,8 @@ namespace xsxk
 
     class definition
     {
-        public static string LoginViewState = "dDwxOTA0NTQ3NDgwO3Q8O2w8aTwxPjs%2BO2w8dDw7bDxpPDg%2BO2k8MTM%2BO2k8MTU%2BOz47bDx0PHA8O3A8bDxvbmNsaWNrOz47bDx3aW5kb3cuY2xvc2UoKVw7Oz4%2BPjs7Pjt0PHA8bDxWaXNpYmxlOz47bDxvPGY%2BOz4%2BOzs%2BO3Q8cDxsPFZpc2libGU7PjtsPG88Zj47Pj47Oz47Pj47Pj47bDxpbWdETDtpbWdUQztpbWdRTU07Pj7x6PjbnkVn3z9hXf5cLw0NJt%2FfaQ%3D%3D";
+        //public static string LoginViewState = "dDwxOTA0NTQ3NDgwO3Q8O2w8aTwxPjs%2BO2w8dDw7bDxpPDg%2BO2k8MTM%2BO2k8MTU%2BOz47bDx0PHA8O3A8bDxvbmNsaWNrOz47bDx3aW5kb3cuY2xvc2UoKVw7Oz4%2BPjs7Pjt0PHA8bDxWaXNpYmxlOz47bDxvPGY%2BOz4%2BOzs%2BO3Q8cDxsPFZpc2libGU7PjtsPG88Zj47Pj47Oz47Pj47Pj47bDxpbWdETDtpbWdUQztpbWdRTU07Pj7x6PjbnkVn3z9hXf5cLw0NJt%2FfaQ%3D%3D";
+        //public static string LoginViewState = "dDwyOTIzOTAzMDY7Oz42OTdWcudOeo1zvSQLGEDUUE%2BZcQ%3D%3D"; //jwnew
+        public static string LoginViewState = "dDwyOTIzOTAzMDY7Oz4Awh%2F0AYQFLiv3J2BJ8gOJ%2BvV%2Bjw%3D%3D"; //jw1
     }
 }

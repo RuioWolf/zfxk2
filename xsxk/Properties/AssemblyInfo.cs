@@ -7,11 +7,11 @@ using System.Resources;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("xsxk")]
-[assembly: AssemblyDescription("深圳信息职业技术学院教务管理系统选课工具")]
+[assembly: AssemblyDescription("广东水利电力职业技术学院教务管理系统选课工具")]
 [assembly: AssemblyConfiguration("Release")]
 [assembly: AssemblyCompany("Microsoft")]
 [assembly: AssemblyProduct("xsxk")]
-[assembly: AssemblyCopyright("Copyright © ISA By Hancel.lin")]
+[assembly: AssemblyCopyright("Copyright © ISA By RuioWolf")]
 [assembly: AssemblyTrademark("ISA")]
 [assembly: AssemblyCulture("")]
 
@@ -30,6 +30,6 @@ using System.Resources;
 //      Build Number
 //      Revision
 //
-[assembly: AssemblyVersion("1.0.2.0")]
-[assembly: AssemblyFileVersion("1.0.2.0")]
+[assembly: AssemblyVersion("1.0.4.0")]
+[assembly: AssemblyFileVersion("1.0.4.0")]
 [assembly: NeutralResourcesLanguageAttribute("zh-CN")]
